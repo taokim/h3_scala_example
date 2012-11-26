@@ -51,7 +51,7 @@ object Activities {
     def old = Person(name, age)
   }
 
-  implicit def strToPersonBuilder(name: String) = new PersonBuilder(name)
+  implicit def strToPersonBuilder(name: String) = PersonBuilder(name)
 
 
   /** 글 하나를 나타내는 모델 */
