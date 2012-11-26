@@ -41,6 +41,19 @@ object Activities {
     def followers = List(Person("wangtao", 35), Person("taokim", 35))
   }
 
+  /** 
+   * 현재는 나이뿐이라 비효율적이지만, mutable 상태를 가지는 여러 인자로 구성하면 StringBuilder
+   * 와 같은 형태로 효율적으로 사용 가능
+   */
+  case class PersonBuilder(name : String, age: Int = 0) {
+    def is(age: Int) = copy(age = age)
+
+    def old = Person(name, age)
+  }
+
+  implicit def strToPersonBuilder(name: String) = new PersonBuilder(name)
+
+
   /** 글 하나를 나타내는 모델 */
   case class Post(author: Person, text: String) extends Noun
 }
@@ -82,9 +95,9 @@ object Main {
   import Notification._
 
   def main(args: Array[String]) {
-    val jane = Person("jane", 59)
+    val jane = "jane" is 59 old
 
-    val charles = Person("charles", 50)
+    val charles = "charles" is 50 old
 
     val post = Post(jane, "hello, world")
 
