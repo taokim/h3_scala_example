@@ -41,15 +41,28 @@ object Activities {
     def followers = List(Person("wangtao", 35), Person("taokim", 35))
   }
 
+
+  //표현력을 위해 만들었을 뿐 실제로 쓸모는 없다...
+  object old
+
+  
   /** 
    * 현재는 나이뿐이라 비효율적이지만, mutable 상태를 가지는 여러 인자로 구성하면 StringBuilder
-   * 와 같은 형태로 효율적으로 사용 가능
+   * 와 같은 형태로 효율적으로 만들 수 도...
    */
-  case class PersonBuilder(name : String, age: Int = 0) {
-    def is(age: Int) = copy(age = age)
+  case class PersonBuilder(name: String) {
+    var age = 0
+    def is(age: Int) = {
+      this.age = age
+      this
+    }
 
-    def old = Person(name, age)
+    def years(old: Any) = Person(name, age)
+
+    def years = Person(name, age)
   }
+
+
 
   implicit def strToPersonBuilder(name: String) = PersonBuilder(name)
 
@@ -95,9 +108,9 @@ object Main {
   import Notification._
 
   def main(args: Array[String]) {
-    val jane = "jane" is 59 old
+    val jane = "jane" is 59 years old
 
-    val charles = "charles" is 50 old
+    val charles = "charles" is 50 years
 
     val post = Post(jane, "hello, world")
 
